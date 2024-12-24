@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ocr_provider_list" model="ir.ui.view">
+        <field name="name">ocr.provider.list</field>
+        <field name="model">ocr.provider</field>
+        <field name="arch" type="xml">
+            <list string="OCR Providers">
+                <field name="name"/>
+                <field name="provider_type"/>
+                <field name="is_default"/>
+                <field name="active"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ocr_provider_form" model="ir.ui.view">
+        <field name="name">ocr.provider.form</field>
+        <field name="model">ocr.provider</field>
+        <field name="arch" type="xml">
+            <form string="OCR Provider">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <widget name="web_ribbon" title="Archived" invisible="active"/>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="provider_type"/>
+                            <field name="is_default"/>
+                        </group>
+                        <group>
+                            <field name="api_key" password="True"/>
+                            <field name="api_endpoint" placeholder="e.g., https://api.ocr.space/parse/image"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_ocr_provider" model="ir.actions.act_window">
+        <field name="name">OCR Providers</field>
+        <field name="res_model">ocr.provider</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first OCR provider
+            </p>
+            <p>
+                Configure OCR providers to process documents using OCR technology.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_ocr_root" 
+              name="OCR"
+              parent="base.menu_custom"
+              sequence="100"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_ocr_provider"
+              name="Providers"
+              parent="menu_ocr_root"
+              action="action_ocr_provider"
+              sequence="10"/>
+</odoo>

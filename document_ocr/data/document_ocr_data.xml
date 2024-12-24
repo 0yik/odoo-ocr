@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequence for document.ocr -->
+        <record id="seq_document_ocr" model="ir.sequence">
+            <field name="name">Document OCR Sequence</field>
+            <field name="code">document.ocr</field>
+            <field name="prefix">DOC/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_ocr_user,document.ocr.user,model_document_ocr,base.group_user,1,1,1,0
+access_document_ocr_manager,document.ocr.manager,model_document_ocr,base.group_system,1,1,1,1

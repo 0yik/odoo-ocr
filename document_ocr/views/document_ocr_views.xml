@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_document_ocr_tree" model="ir.ui.view">
+        <field name="name">document.ocr.tree</field>
+        <field name="model">document.ocr</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Document OCR" decoration-info="state == 'draft'" decoration-warning="state == 'processing'" decoration-success="state == 'done'" decoration-danger="state == 'error'">
+                <field name="name"/>
+                <field name="document_filename"/>
+                <field name="document_type"/>
+                <field name="state"/>
+                <field name="related_record"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_document_ocr_form" model="ir.ui.view">
+        <field name="name">document.ocr.form</field>
+        <field name="model">document.ocr</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Document OCR">
+                <header>
+                    <button name="process_document" string="Process Document" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,processing,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="document_type"/>
+                            <field name="document_file" widget="binary" filename="document_filename" readonly="state != 'draft'"/>
+                            <field name="document_filename" invisible="1"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="ocr_provider_id"/>
+                            <field name="llm_provider_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="related_record" readonly="1"/>
+                            <field name="create_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <!-- Image preview -->
+                    <div invisible="file_type != 'image'">
+                        <h3>Document Preview</h3>
+                        <field name="document_file" widget="image" options="{'preview_image': 'document_file'}" readonly="1"/>
+                    </div>
+                    <!-- PDF preview -->
+                    <div invisible="file_type != 'pdf'">
+                        <h3>PDF Preview</h3>
+                        <field name="document_file" widget="pdf_viewer" readonly="1"/>
+                    </div>
+                    <notebook>
+                        <page string="OCR Results" invisible="state == 'draft'">
+                            <group>
+                                <field name="ocr_result" widget="text" readonly="1" style="white-space: pre-wrap; font-family: monospace;"/>
+                                <field name="parsed_data" readonly="1"/>
+                                <field name="error_message" readonly="1" invisible="state != 'error'"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_document_ocr" model="ir.actions.act_window">
+        <field name="name">Document OCR</field>
+        <field name="res_model">document.ocr</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Upload a document to process with OCR
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_document_ocr_root"
+              name="Document OCR"
+              web_icon="document_ocr,static/description/icon.png"
+              sequence="50"/>
+
+    <menuitem id="menu_document_ocr"
+              name="Documents"
+              parent="menu_document_ocr_root"
+              action="action_document_ocr"
+              sequence="1"/>
+</odoo>
