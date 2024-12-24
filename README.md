@@ -1,7 +1,7 @@
 # odoo-ocr
 Odoo module that provides Optical Character Recognition (OCR) and information extraction capabilities for documents.
 
-#Demo
+# Demo
 https://github.com/user-attachments/assets/83478c82-f2db-4f9c-891e-fcecff3a09d5
 
 ## Contributing
