@@ -4,6 +4,12 @@ Odoo module that provides Optical Character Recognition (OCR) and information ex
 # Demo
 https://github.com/user-attachments/assets/83478c82-f2db-4f9c-891e-fcecff3a09d5
 
+## Prerequisites
+
+To use this module, you need to have:
+- An account and API key from [ocr.space](https://ocr.space/)
+- An account with [groq](https://groq.com/)
+
 ## Contributing
 
 1. Fork the repository
