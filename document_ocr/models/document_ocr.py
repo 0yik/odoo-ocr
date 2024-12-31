@@ -56,6 +56,33 @@ class DocumentOCR(models.Model):
         required=True,
         default=lambda self: self.env.company,
     )
+    ocr_language = fields.Selection([
+        ('ara', 'Arabic'),
+        ('bul', 'Bulgarian'),
+        ('chs', 'Chinese (Simplified)'),
+        ('cht', 'Chinese (Traditional)'),
+        ('hrv', 'Croatian'),
+        ('cze', 'Czech'),
+        ('dan', 'Danish'),
+        ('dut', 'Dutch'),
+        ('eng', 'English'),
+        ('fin', 'Finnish'),
+        ('fre', 'French'),
+        ('ger', 'German'),
+        ('gre', 'Greek'),
+        ('hun', 'Hungarian'),
+        ('kor', 'Korean'),
+        ('ita', 'Italian'),
+        ('jpn', 'Japanese'),
+        ('pol', 'Polish'),
+        ('por', 'Portuguese'),
+        ('rus', 'Russian'),
+        ('slv', 'Slovenian'),
+        ('spa', 'Spanish'),
+        ('swe', 'Swedish'),
+        ('tur', 'Turkish'),
+    ], string='OCR Language', required=True, default='eng',
+        help="Language used for OCR processing. If not specified, English will be used.")
     ocr_provider_id = fields.Many2one(
         "ocr.provider",
         string="OCR Provider",
@@ -188,7 +215,7 @@ class DocumentOCR(models.Model):
 
             # Process with OCR provider
             result = self.ocr_provider_id.process_image(
-                file_data, filename=os.path.basename(file_path)
+                file_data, filename=os.path.basename(file_path), language=self.ocr_language
             )
 
             if result.get("success"):

@@ -38,6 +38,7 @@
                             <field name="document_type"/>
                             <field name="document_file" widget="binary" filename="document_filename" readonly="state != 'draft'"/>
                             <field name="document_filename" invisible="1"/>
+                            <field name="ocr_language"/>
                             <field name="state"/>
                         </group>
                         <group>
