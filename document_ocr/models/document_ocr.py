@@ -57,30 +57,38 @@ class DocumentOCR(models.Model):
         default=lambda self: self.env.company,
     )
     ocr_language = fields.Selection([
-        ('ara', 'Arabic'),
-        ('bul', 'Bulgarian'),
-        ('chs', 'Chinese (Simplified)'),
-        ('cht', 'Chinese (Traditional)'),
-        ('hrv', 'Croatian'),
-        ('cze', 'Czech'),
-        ('dan', 'Danish'),
-        ('dut', 'Dutch'),
         ('eng', 'English'),
+        ('ara', 'Arabic'),
+        ('bel', 'Belarusian'),
+        ('ben', 'Bengali'),
+        ('bul', 'Bulgarian'),
+        ('ces', 'Czech'),
+        ('dan', 'Danish'),
+        ('deu', 'German'),
+        ('ell', 'Greek'),
         ('fin', 'Finnish'),
-        ('fre', 'French'),
-        ('ger', 'German'),
-        ('gre', 'Greek'),
-        ('hun', 'Hungarian'),
-        ('kor', 'Korean'),
+        ('fra', 'French'),
+        ('heb', 'Hebrew'),
+        ('hin', 'Hindi'),
+        ('ind', 'Indonesian'),
+        ('isl', 'Icelandic'),
         ('ita', 'Italian'),
         ('jpn', 'Japanese'),
+        ('kor', 'Korean'),
+        ('nld', 'Dutch'),
+        ('nor', 'Norwegian'),
         ('pol', 'Polish'),
         ('por', 'Portuguese'),
+        ('ron', 'Romanian'),
         ('rus', 'Russian'),
-        ('slv', 'Slovenian'),
         ('spa', 'Spanish'),
         ('swe', 'Swedish'),
+        ('tha', 'Thai'),
         ('tur', 'Turkish'),
+        ('ukr', 'Ukrainian'),
+        ('vie', 'Vietnamese'),
+        ('chi-sim', 'Chinese Simplified'),
+        ('chi-tra', 'Chinese Traditional')
     ], string='OCR Language', required=True, default='eng',
         help="Language used for OCR processing. If not specified, English will be used.")
     ocr_provider_id = fields.Many2one(
@@ -157,7 +165,7 @@ class DocumentOCR(models.Model):
                     f.write(binary_data)
 
                 # Process with OCR
-                ocr_result = self._process_ocr(temp_input)
+                ocr_result = self.with_context(document_id=self)._process_ocr(temp_input)
                 if not ocr_result.get("ParsedResults"):
                     raise UserError(_("OCR processing failed. Please try again."))
 
