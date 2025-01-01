@@ -27,8 +27,11 @@ class OCRSpaceProvider(models.Model):
 
         headers = {"apikey": self.api_key}
 
+        # Get mapped language code for OCR.space
+        language = self._map_language_code(kwargs.get('language', 'eng'))
+
         payload = {
-            "language": kwargs.get("language", "eng"),
+            "language": language,
             "isOverlayRequired": False,
             "OCREngine": 1,
             "isTable": True,
